@@ -39,6 +39,14 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Debug middleware - log all requests (before routes)
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  console.log('Query:', req.query);
+  console.log('Body keys:', Object.keys(req.body || {}));
+  next();
+});
+
 // Serve static files from uploads directory
 app.use('/uploads', express.static(path.join(__dirname, '../server/uploads')));
 
@@ -71,6 +79,8 @@ async function connectDB() {
 const formRoutes = require('../server/routes/formRoutes');
 const paymentRoutes = require('../server/routes/paymentRoutes');
 const productRoutes = require('../server/routes/productRoutes');
+
+// Mount routes with /api prefix (Vercel passes full path including /api)
 app.use('/api/forms', formRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/products', productRoutes);
@@ -80,9 +90,27 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
 });
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ status: 'OK', message: 'API is running' });
+});
+
+// Catch-all for unmatched routes (must be last)
+app.use((req, res) => {
+  console.error('Route not found:', req.method, req.path);
+  res.status(404).json({ 
+    error: 'Route not found',
+    method: req.method,
+    path: req.path,
+    message: `The route ${req.method} ${req.path} was not found on this server`
+  });
+});
+
 // Initialize DB connection
 connectDB().catch(console.error);
 
 // Export for Vercel serverless
+// For Vercel, we need to handle the path correctly
+// Vercel routes /api/* to this file, so paths come without /api prefix
 module.exports = app;
 
