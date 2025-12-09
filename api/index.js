@@ -81,9 +81,13 @@ const paymentRoutes = require('../server/routes/paymentRoutes');
 const productRoutes = require('../server/routes/productRoutes');
 
 // Mount routes with /api prefix (Vercel passes full path including /api)
+// Also mount without prefix for compatibility
 app.use('/api/forms', formRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/products', productRoutes);
+app.use('/forms', formRoutes);
+app.use('/payments', paymentRoutes);
+app.use('/products', productRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

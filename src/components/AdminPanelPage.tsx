@@ -102,9 +102,16 @@ const AdminPanelPage: React.FC = () => {
       });
       
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Response not OK:', response.status, errorText);
-        throw new Error(`Failed to fetch submissions: ${response.status} ${response.statusText}`);
+        let errorText = '';
+        try {
+          errorText = await response.text();
+          console.error('Response not OK:', response.status, response.statusText);
+          console.error('Error response body:', errorText);
+          console.error('Request URL was:', fetchUrl);
+        } catch (textError) {
+          console.error('Could not read error response:', textError);
+        }
+        throw new Error(`Failed to fetch submissions: ${response.status} ${response.statusText}. URL: ${fetchUrl}`);
       }
       
       const data = await response.json();
