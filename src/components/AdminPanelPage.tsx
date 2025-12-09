@@ -66,9 +66,16 @@ const AdminPanelPage: React.FC = () => {
     if (process.env.REACT_APP_API_URL) {
       return process.env.REACT_APP_API_URL;
     }
+    
+    const hostname = window.location.hostname;
+    
+    // If on Vercel, use relative path (API routes are handled by serverless functions)
+    if (hostname.includes('vercel.app') || hostname.includes('vercel.com')) {
+      return '/api';
+    }
+    
     // Use current window location for network access
     const protocol = window.location.protocol;
-    const hostname = window.location.hostname;
     
     // Handle HTTPS frontend -> HTTP backend (use http for local backend)
     // In production, you should use HTTPS for both

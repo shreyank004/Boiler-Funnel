@@ -179,28 +179,33 @@ const PostcodeSelector: React.FC<PostcodeSelectorProps> = ({
     const sampleAddresses = generateSampleAddresses(cleanPostcode, currentPostcodeData);
     console.log('Generated sample addresses:', sampleAddresses.length);
 
-    // First, try using getAddress.io API (free tier)
-    try {
-      const getAddressResponse = await fetch(`https://api.getAddress.io/autocomplete/${encodeURIComponent(cleanPostcode)}?api-key=${process.env.REACT_APP_GETADDRESS_API_KEY || ''}`);
-      
-      if (getAddressResponse.ok) {
-        const getAddressData = await getAddressResponse.json();
-        if (getAddressData.suggestions && getAddressData.suggestions.length > 0) {
-          // Format addresses from getAddress.io
-          const addressList = getAddressData.suggestions.map((suggestion: string) => {
-            return `${suggestion}, ${cleanPostcode}`;
-          });
-          setAddresses(addressList);
-          setIsLoadingAddresses(false);
-          setTimeout(() => {
-            setShowAddressDropdown(true);
-            console.log('Addresses loaded from getAddress.io:', addressList.length, addressList);
-          }, 50);
-          return;
+    // First, try using getAddress.io API (free tier) - only if API key is available
+    const getAddressApiKey = process.env.REACT_APP_GETADDRESS_API_KEY;
+    if (getAddressApiKey && getAddressApiKey.trim() !== '') {
+      try {
+        const getAddressResponse = await fetch(`https://api.getAddress.io/autocomplete/${encodeURIComponent(cleanPostcode)}?api-key=${getAddressApiKey}`);
+        
+        if (getAddressResponse.ok) {
+          const getAddressData = await getAddressResponse.json();
+          if (getAddressData.suggestions && getAddressData.suggestions.length > 0) {
+            // Format addresses from getAddress.io
+            const addressList = getAddressData.suggestions.map((suggestion: string) => {
+              return `${suggestion}, ${cleanPostcode}`;
+            });
+            setAddresses(addressList);
+            setIsLoadingAddresses(false);
+            setTimeout(() => {
+              setShowAddressDropdown(true);
+              console.log('Addresses loaded from getAddress.io:', addressList.length, addressList);
+            }, 50);
+            return;
+          }
         }
+      } catch (error) {
+        console.log('getAddress.io not available, trying Google Places...', error);
       }
-    } catch (error) {
-      console.log('getAddress.io not available, trying Google Places...');
+    } else {
+      console.log('getAddress.io API key not configured, skipping...');
     }
 
     // Fallback to Google Places API

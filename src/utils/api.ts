@@ -1,6 +1,7 @@
 /**
  * Get the API base URL dynamically
  * - Uses REACT_APP_API_URL if set in environment
+ * - On Vercel, uses relative path /api (routed to serverless function)
  * - Otherwise constructs from current window location (for network access)
  * - Falls back to localhost for development
  */
@@ -10,11 +11,17 @@ const getApiBaseUrl = (): string => {
     return process.env.REACT_APP_API_URL;
   }
   
-  // If running in browser, use current hostname with port 5000
+  // If running in browser
   if (typeof window !== 'undefined') {
-    const protocol = window.location.protocol;
     const hostname = window.location.hostname;
-    // Use port 5000 for API server
+    
+    // If on Vercel, use relative path (API routes are handled by serverless functions)
+    if (hostname.includes('vercel.app') || hostname.includes('vercel.com')) {
+      return '/api';
+    }
+    
+    // For local development or network access, use hostname with port 5000
+    const protocol = window.location.protocol;
     return `${protocol}//${hostname}:5000/api`;
   }
   

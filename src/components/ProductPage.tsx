@@ -53,9 +53,16 @@ const ProductPage: React.FC<ProductPageProps> = ({ formData, contactData, submis
     if (process.env.REACT_APP_API_URL) {
       return process.env.REACT_APP_API_URL;
     }
+    
+    const hostname = window.location.hostname;
+    
+    // If on Vercel, use relative path (API routes are handled by serverless functions)
+    if (hostname.includes('vercel.app') || hostname.includes('vercel.com')) {
+      return '/api';
+    }
+    
     // Use current window location for network access
     const protocol = window.location.protocol;
-    const hostname = window.location.hostname;
     return `${protocol}//${hostname}:5000/api`;
   };
 
@@ -64,8 +71,15 @@ const ProductPage: React.FC<ProductPageProps> = ({ formData, contactData, submis
     if (process.env.REACT_APP_API_URL) {
       return process.env.REACT_APP_API_URL.replace('/api', '');
     }
-    const protocol = window.location.protocol;
+    
     const hostname = window.location.hostname;
+    
+    // If on Vercel, use current origin (images served from same domain)
+    if (hostname.includes('vercel.app') || hostname.includes('vercel.com')) {
+      return window.location.origin;
+    }
+    
+    const protocol = window.location.protocol;
     return `${protocol}//${hostname}:5000`;
   };
 

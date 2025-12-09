@@ -2,10 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // Middleware
 // Configure CORS to allow Vercel and other origins
@@ -23,7 +21,7 @@ const corsOptions = {
       'http://127.0.0.1:3000',
     ];
     
-    // Allow if origin is in the allowed list
+    // Allow if origin is in the allowed list or in development
     if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
       callback(null, true);
     } else {
@@ -42,26 +40,37 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from uploads directory
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../server/uploads')));
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/boiler-quotes';
 
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => {
-  console.log('Connected to MongoDB');
-})
-.catch((error) => {
-  console.error('MongoDB connection error:', error);
-});
+// Connect to MongoDB (reuse connection if exists)
+let mongooseConnection = null;
+
+async function connectDB() {
+  if (mongooseConnection) {
+    return mongooseConnection;
+  }
+  
+  try {
+    await mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    mongooseConnection = mongoose.connection;
+    console.log('Connected to MongoDB');
+    return mongooseConnection;
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw error;
+  }
+}
 
 // Import routes
-const formRoutes = require('./routes/formRoutes');
-const paymentRoutes = require('./routes/paymentRoutes');
-const productRoutes = require('./routes/productRoutes');
+const formRoutes = require('../server/routes/formRoutes');
+const paymentRoutes = require('../server/routes/paymentRoutes');
+const productRoutes = require('../server/routes/productRoutes');
 app.use('/api/forms', formRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/products', productRoutes);
@@ -71,9 +80,9 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
 });
 
-// Listen on all network interfaces (0.0.0.0) to allow access from other devices
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Accessible at http://localhost:${PORT} or http://<your-ip>:${PORT}`);
-});
+// Initialize DB connection
+connectDB().catch(console.error);
+
+// Export for Vercel serverless
+module.exports = app;
 
