@@ -15,7 +15,7 @@ MONGODB_URI=mongodb://localhost:27017/boiler-quotes
 # Server Port
 PORT=5000
 
-STRIPE_SECRET_KEY=sk_test_YOUR_SECRET_KEY_HERE
+STRIPE_SECRET_KEY=sk_test_51S1KU022PWcmotn34fEmpQtGJSGnr3SpEnbVV13awsygtHojF8OTQo9cJnoW1ZjHmo7dRyJEbCbk4VZG8uMNnuru00HK7BH6Dp
 
 
 
@@ -25,7 +25,7 @@ Create a `.env` file in the root directory with the following content:
 REACT_APP_API_URL=http://localhost:5000/api
 
 
-REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_test_YOUR_PUBLISHABLE_KEY_HERE
+REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_test_51S1KU022PWcmotn3tG5GqKpZmNHj0zKeu93fAo36F6ZuXgvVnO3yvrT65sQ0cKxe8Y0yRa7lAwyfAcf1NF4ggPGf00dtXCPETL
 
 
 **Important:** After creating/updating the `.env` file, restart your development server for the changes to take effect.
