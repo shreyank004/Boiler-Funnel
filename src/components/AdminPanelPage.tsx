@@ -61,10 +61,6 @@ const AdminPanelPage: React.FC = () => {
   const [productImage, setProductImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchSubmissions();
-  }, []);
-
   // Helper function to get API URL dynamically
   const getApiUrl = (): string => {
     if (process.env.REACT_APP_API_URL) {
@@ -73,17 +69,35 @@ const AdminPanelPage: React.FC = () => {
     // Use current window location for network access
     const protocol = window.location.protocol;
     const hostname = window.location.hostname;
-    return `${protocol}//${hostname}:5000/api`;
+    
+    // Handle HTTPS frontend -> HTTP backend (use http for local backend)
+    // In production, you should use HTTPS for both
+    const backendProtocol = (hostname === 'localhost' || hostname === '127.0.0.1') 
+      ? 'http' 
+      : protocol;
+    
+    return `${backendProtocol}//${hostname}:5000/api`;
   };
 
   const fetchSubmissions = async () => {
     try {
       setLoading(true);
       const apiUrl = getApiUrl();
-      const response = await fetch(`${apiUrl}/forms/all`);
+      const fetchUrl = `${apiUrl}/forms/all`;
+      
+      console.log('Fetching submissions from:', fetchUrl);
+      
+      const response = await fetch(fetchUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       
       if (!response.ok) {
-        throw new Error('Failed to fetch submissions');
+        const errorText = await response.text();
+        console.error('Response not OK:', response.status, errorText);
+        throw new Error(`Failed to fetch submissions: ${response.status} ${response.statusText}`);
       }
       
       const data = await response.json();
@@ -91,11 +105,24 @@ const AdminPanelPage: React.FC = () => {
       setError(null);
     } catch (err) {
       console.error('Error fetching submissions:', err);
-      setError(err instanceof Error ? err.message : 'Failed to load submissions');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load submissions';
+      
+      // Provide more helpful error messages
+      if (err instanceof TypeError && err.message.includes('Failed to fetch')) {
+        const apiUrl = getApiUrl();
+        setError(`Cannot connect to server at ${apiUrl}. Please ensure the backend server is running.`);
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchSubmissions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this submission?')) {
