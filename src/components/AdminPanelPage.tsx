@@ -197,16 +197,20 @@ const AdminPanelPage: React.FC = () => {
       }
 
       // Parse features (comma-separated string to array)
-      const features = productFormData.features
-        .split(',')
-        .map(f => f.trim())
-        .filter(f => f.length > 0);
+      const features = productFormData.features && productFormData.features.trim()
+        ? productFormData.features
+            .split(',')
+            .map(f => f.trim())
+            .filter(f => f.length > 0)
+        : [];
 
       // Parse suitableBedrooms (comma-separated string to array)
-      const suitableBedrooms = productFormData.suitableBedrooms
-        .split(',')
-        .map(b => b.trim())
-        .filter(b => b.length > 0);
+      const suitableBedrooms = productFormData.suitableBedrooms && productFormData.suitableBedrooms.trim()
+        ? productFormData.suitableBedrooms
+            .split(',')
+            .map(b => b.trim())
+            .filter(b => b.length > 0)
+        : [];
 
       // Validate rating is a valid number
       const ratingValue = parseFloat(productFormData.rating);
@@ -299,9 +303,28 @@ const AdminPanelPage: React.FC = () => {
         });
 
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to create product');
+          let errorMessage = `Failed to create product (${response.status} ${response.statusText})`;
+          try {
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+              const errorData = await response.json();
+              errorMessage = errorData.error || errorData.message || errorMessage;
+            } else {
+              const errorText = await response.text();
+              if (errorText) {
+                errorMessage = errorText;
+              }
+            }
+          } catch (parseError) {
+            console.error('Error parsing error response:', parseError);
+            // Use default error message
+          }
+          throw new Error(errorMessage);
         }
+
+        // Parse successful response
+        const result = await response.json();
+        console.log('Product created successfully:', result);
       } else {
         const response = await fetch(`${apiUrl}/products/create`, {
           method: 'POST',
@@ -312,9 +335,28 @@ const AdminPanelPage: React.FC = () => {
         });
 
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to create product');
+          let errorMessage = `Failed to create product (${response.status} ${response.statusText})`;
+          try {
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+              const errorData = await response.json();
+              errorMessage = errorData.error || errorData.message || errorMessage;
+            } else {
+              const errorText = await response.text();
+              if (errorText) {
+                errorMessage = errorText;
+              }
+            }
+          } catch (parseError) {
+            console.error('Error parsing error response:', parseError);
+            // Use default error message
+          }
+          throw new Error(errorMessage);
         }
+
+        // Parse successful response
+        const result = await response.json();
+        console.log('Product created successfully:', result);
       }
 
       setProductFormSuccess(true);

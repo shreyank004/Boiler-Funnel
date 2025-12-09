@@ -98,30 +98,48 @@ router.post('/create', upload.any(), async (req, res) => {
     }
     
     // Parse features and suitableBedrooms if they're strings or JSON strings
-    if (typeof productData.features === 'string') {
+    if (typeof productData.features === 'string' && productData.features.trim() !== '') {
       try {
         // Try to parse as JSON first (in case it was stringified)
-        productData.features = JSON.parse(productData.features);
-      } catch {
+        const parsed = JSON.parse(productData.features);
+        // Ensure it's an array
+        productData.features = Array.isArray(parsed) ? parsed : [parsed];
+      } catch (parseError) {
         // If not JSON, treat as comma-separated
-        productData.features = productData.features
-          .split(',')
-          .map(f => f.trim())
-          .filter(f => f.length > 0);
+        try {
+          productData.features = productData.features
+            .split(',')
+            .map(f => f.trim())
+            .filter(f => f.length > 0);
+        } catch (splitError) {
+          console.error('Error parsing features:', splitError);
+          productData.features = [];
+        }
       }
+    } else if (!productData.features) {
+      productData.features = [];
     }
     
-    if (typeof productData.suitableBedrooms === 'string') {
+    if (typeof productData.suitableBedrooms === 'string' && productData.suitableBedrooms.trim() !== '') {
       try {
         // Try to parse as JSON first (in case it was stringified)
-        productData.suitableBedrooms = JSON.parse(productData.suitableBedrooms);
-      } catch {
+        const parsed = JSON.parse(productData.suitableBedrooms);
+        // Ensure it's an array
+        productData.suitableBedrooms = Array.isArray(parsed) ? parsed : [parsed];
+      } catch (parseError) {
         // If not JSON, treat as comma-separated
-        productData.suitableBedrooms = productData.suitableBedrooms
-          .split(',')
-          .map(b => b.trim())
-          .filter(b => b.length > 0);
+        try {
+          productData.suitableBedrooms = productData.suitableBedrooms
+            .split(',')
+            .map(b => b.trim())
+            .filter(b => b.length > 0);
+        } catch (splitError) {
+          console.error('Error parsing suitableBedrooms:', splitError);
+          productData.suitableBedrooms = [];
+        }
       }
+    } else if (!productData.suitableBedrooms) {
+      productData.suitableBedrooms = [];
     }
     
     // Convert rating to number if it's a string
