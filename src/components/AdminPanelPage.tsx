@@ -65,10 +65,21 @@ const AdminPanelPage: React.FC = () => {
     fetchSubmissions();
   }, []);
 
+  // Helper function to get API URL dynamically
+  const getApiUrl = (): string => {
+    if (process.env.REACT_APP_API_URL) {
+      return process.env.REACT_APP_API_URL;
+    }
+    // Use current window location for network access
+    const protocol = window.location.protocol;
+    const hostname = window.location.hostname;
+    return `${protocol}//${hostname}:5000/api`;
+  };
+
   const fetchSubmissions = async () => {
     try {
       setLoading(true);
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+      const apiUrl = getApiUrl();
       const response = await fetch(`${apiUrl}/forms/all`);
       
       if (!response.ok) {
@@ -92,7 +103,7 @@ const AdminPanelPage: React.FC = () => {
     }
 
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+      const apiUrl = getApiUrl();
       const response = await fetch(`${apiUrl}/forms/${id}`, {
         method: 'DELETE',
       });
@@ -199,7 +210,7 @@ const AdminPanelPage: React.FC = () => {
         productData.boilerType = productFormData.boilerType;
       }
 
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+      const apiUrl = getApiUrl();
       
       // Use FormData if image is being uploaded, otherwise use JSON
       if (productImage) {

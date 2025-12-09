@@ -42,7 +42,9 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
 });
 
-app.listen(PORT, () => {
+// Listen on all network interfaces (0.0.0.0) to allow access from other devices
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`Accessible at http://localhost:${PORT} or http://<your-ip>:${PORT}`);
 });
 

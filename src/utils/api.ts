@@ -1,4 +1,28 @@
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+/**
+ * Get the API base URL dynamically
+ * - Uses REACT_APP_API_URL if set in environment
+ * - Otherwise constructs from current window location (for network access)
+ * - Falls back to localhost for development
+ */
+const getApiBaseUrl = (): string => {
+  // If environment variable is set, use it
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
+  }
+  
+  // If running in browser, use current hostname with port 5000
+  if (typeof window !== 'undefined') {
+    const protocol = window.location.protocol;
+    const hostname = window.location.hostname;
+    // Use port 5000 for API server
+    return `${protocol}//${hostname}:5000/api`;
+  }
+  
+  // Fallback for SSR or Node environments
+  return 'http://localhost:5000/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 export interface FormSubmissionData {
   // Form data

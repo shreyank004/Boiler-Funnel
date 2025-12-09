@@ -47,6 +47,28 @@ interface Product {
 
 const ProductPage: React.FC<ProductPageProps> = ({ formData, contactData, submissionId }) => {
   const navigate = useNavigate();
+  
+  // Helper function to get API URL dynamically
+  const getApiUrl = (): string => {
+    if (process.env.REACT_APP_API_URL) {
+      return process.env.REACT_APP_API_URL;
+    }
+    // Use current window location for network access
+    const protocol = window.location.protocol;
+    const hostname = window.location.hostname;
+    return `${protocol}//${hostname}:5000/api`;
+  };
+
+  // Helper function to get base URL (without /api) for image URLs
+  const getBaseUrl = (): string => {
+    if (process.env.REACT_APP_API_URL) {
+      return process.env.REACT_APP_API_URL.replace('/api', '');
+    }
+    const protocol = window.location.protocol;
+    const hostname = window.location.hostname;
+    return `${protocol}//${hostname}:5000`;
+  };
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [depositPercentage, setDepositPercentage] = useState<number>(0);
   const [selectedPaymentOption, setSelectedPaymentOption] = useState<{ months: number; apr: number } | null>(null);
@@ -182,7 +204,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ formData, contactData, submis
       try {
         setProductsLoading(true);
         setProductsError(null);
-        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+        const apiUrl = getApiUrl();
         const response = await fetch(`${apiUrl}/products/all`);
         
         if (!response.ok) {
@@ -312,7 +334,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ formData, contactData, submis
                 <div className="product-page__product-image">
                   {product.imageUrl ? (
                     <img 
-                      src={`${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}${product.imageUrl}`}
+                      src={`${getBaseUrl()}${product.imageUrl}`}
                       alt={product.name}
                       style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '8px', padding: '20px' }}
                     />
@@ -502,7 +524,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ formData, contactData, submis
                 <div className="finance-modal__product-image">
                   {selectedProduct.imageUrl ? (
                     <img 
-                      src={`${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}${selectedProduct.imageUrl}`}
+                      src={`${getBaseUrl()}${selectedProduct.imageUrl}`}
                       alt={selectedProduct.name}
                       style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px' }}
                     />
