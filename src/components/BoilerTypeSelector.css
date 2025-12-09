@@ -1,0 +1,122 @@
+.boiler-type-selector__radio-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.boiler-type-selector__radio-option {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 2rem;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  text-align: left;
+}
+
+.boiler-type-selector__radio-option:hover {
+  background-color: #1e883e;
+  border-color: #1e883e;
+}
+
+.boiler-type-selector__radio-option:hover .boiler-type-selector__radio-label {
+  color: #ffffff;
+}
+
+.boiler-type-selector__radio-option--selected {
+  background-color: #1e883e;
+  border-color: #1e883e;
+}
+
+.boiler-type-selector__radio-option--selected .boiler-type-selector__radio-label {
+  color: #ffffff;
+}
+
+.boiler-type-selector__radio {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.boiler-type-selector__check-icon {
+  display: none;
+}
+
+.boiler-type-selector__check-icon--hover {
+  position: absolute;
+  display: none;
+}
+
+.boiler-type-selector__radio-empty {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #cbd5e1;
+  border-radius: 50%;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.boiler-type-selector__radio-option:hover .boiler-type-selector__radio-empty {
+  opacity: 0;
+}
+
+.boiler-type-selector__radio-option:hover .boiler-type-selector__check-icon--hover {
+  display: block;
+}
+
+.boiler-type-selector__radio-option--selected .boiler-type-selector__check-icon {
+  display: block;
+}
+
+.boiler-type-selector__radio-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1e293b;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.boiler-type-selector__info-box {
+  background-color: #d1fae5;
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 1rem;
+}
+
+.boiler-type-selector__info-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0.125rem;
+}
+
+.boiler-type-selector__info-content {
+  flex: 1;
+}
+
+.boiler-type-selector__info-content p {
+  font-size: 0.875rem;
+  color: #065f46;
+  margin: 0;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+@media (min-width: 640px) {
+  .boiler-type-selector__radio-options {
+    gap: 1.25rem;
+  }
+}

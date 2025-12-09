@@ -1,0 +1,92 @@
+.shower-cubicle-selector__radio-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 2rem;
+}
+
+.shower-cubicle-selector__radio-option {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 2rem;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  text-align: left;
+}
+
+.shower-cubicle-selector__radio-option:hover {
+  background-color: #1e883e;
+  border-color: #1e883e;
+}
+
+.shower-cubicle-selector__radio-option:hover .shower-cubicle-selector__radio-label {
+  color: #ffffff;
+}
+
+.shower-cubicle-selector__radio-option--selected {
+  background-color: #1e883e;
+  border-color: #1e883e;
+}
+
+.shower-cubicle-selector__radio-option--selected .shower-cubicle-selector__radio-label {
+  color: #ffffff;
+}
+
+.shower-cubicle-selector__radio {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.shower-cubicle-selector__check-icon {
+  display: none;
+}
+
+.shower-cubicle-selector__check-icon--hover {
+  position: absolute;
+  display: none;
+}
+
+.shower-cubicle-selector__radio-empty {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #cbd5e1;
+  border-radius: 50%;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.shower-cubicle-selector__radio-option:hover .shower-cubicle-selector__radio-empty {
+  opacity: 0;
+}
+
+.shower-cubicle-selector__radio-option:hover .shower-cubicle-selector__check-icon--hover {
+  display: block;
+}
+
+.shower-cubicle-selector__radio-option--selected .shower-cubicle-selector__check-icon {
+  display: block;
+}
+
+.shower-cubicle-selector__radio-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1e293b;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+@media (min-width: 640px) {
+  .shower-cubicle-selector__radio-options {
+    max-width: 600px;
+  }
+}

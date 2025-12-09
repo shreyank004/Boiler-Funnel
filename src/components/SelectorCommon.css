@@ -1,0 +1,203 @@
+/* Common styles for all selector components */
+.selector-common {
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.selector-common__header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.selector-common__logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #065f46;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  margin-bottom: 0.5rem;
+}
+
+.selector-common__progress-line {
+  height: 2px;
+  background-color: #d1fae5;
+  width: 100%;
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.selector-common__progress-line-fill {
+  height: 100%;
+  background-color: #10b981;
+  border-radius: 1px;
+  transition: width 0.3s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.selector-common__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.selector-common__question {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  line-height: 1.2;
+}
+
+.selector-common__helper {
+  font-size: 1rem;
+  color: #64748b;
+  margin-bottom: 3rem;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.selector-common__options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.selector-common__option {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.selector-common__option:hover {
+  border-color: #cbd5e1;
+  background-color: #f1f5f9;
+}
+
+.selector-common__option--selected {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+.selector-common__option-icon {
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selector-common__option-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1e293b;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.selector-common__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.selector-common__back-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #1e293b;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  color: white;
+}
+
+.selector-common__back-button:hover {
+  background-color: #334155;
+}
+
+.selector-common__trustpilot {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.selector-common__trustpilot-rating {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.selector-common__trustpilot-stars {
+  display: flex;
+  gap: 0.125rem;
+}
+
+.selector-common__trustpilot-text {
+  font-size: 0.875rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+@media (min-width: 640px) {
+  .selector-common__content {
+    padding: 4rem 2rem;
+  }
+
+  .selector-common__question {
+    font-size: 2.5rem;
+  }
+
+  .selector-common__helper {
+    font-size: 1.125rem;
+  }
+
+  .selector-common__options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .selector-common__content {
+    padding: 5rem 2rem;
+  }
+
+  .selector-common__question {
+    font-size: 3rem;
+  }
+
+  .selector-common__options {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 900px;
+  }
+}
+

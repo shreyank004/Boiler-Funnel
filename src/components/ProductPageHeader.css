@@ -1,0 +1,296 @@
+.product-page-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.product-page-header__container {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Logo */
+.product-page-header__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.product-page-header__logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.product-page-header__logo-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Progress Steps */
+.product-page-header__steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.product-page-header__step-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  pointer-events: auto;
+}
+
+.product-page-header__step-link:hover {
+  opacity: 0.8;
+}
+
+.product-page-header__step-link--active {
+  cursor: pointer;
+}
+
+.product-page-header__step-link--completed {
+  cursor: pointer;
+}
+
+.product-page-header__step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.product-page-header__step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background-color: #f1f5f9;
+  border: 2px solid #e2e8f0;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.product-page-header__step-circle--active {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+.product-page-header__step-circle--completed {
+  background-color: #ffffff;
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.product-page-header__step-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.product-page-header__step-label--active {
+  color: #000000;
+  font-weight: 600;
+}
+
+.product-page-header__arrow {
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  margin: 0 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.product-page-header__arrow--completed {
+  color: #10b981;
+}
+
+/* Right Side */
+.product-page-header__right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+/* Which? Badge */
+.product-page-header__badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #ef4444;
+  padding: 0.5rem;
+  background-color: #ffffff;
+}
+
+.product-page-header__badge-content {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.125rem;
+}
+
+.product-page-header__badge-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.product-page-header__badge-dot {
+  font-size: 0.5rem;
+  color: #ef4444;
+  line-height: 1;
+}
+
+.product-page-header__badge-subtitle {
+  font-size: 0.625rem;
+  font-weight: 400;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  text-align: center;
+}
+
+/* Help Button */
+.product-page-header__help-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.product-page-header__help-button:hover {
+  background-color: #1e293b;
+}
+
+.product-page-header__help-emoji {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Shopping Basket */
+.product-page-header__basket {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #1e293b;
+  transition: color 0.2s ease;
+}
+
+.product-page-header__basket:hover {
+  color: #10b981;
+}
+
+.product-page-header__basket svg {
+  width: 20px;
+  height: 20px;
+}
+
+.product-page-header__basket-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  background-color: #10b981;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  border: 2px solid #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-page-header__container {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .product-page-header__steps {
+    gap: 0.25rem;
+  }
+
+  .product-page-header__step-label {
+    display: none;
+  }
+
+  .product-page-header__step-circle {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+
+  .product-page-header__badge {
+    width: 60px;
+    height: 60px;
+  }
+
+  .product-page-header__badge-title {
+    font-size: 0.625rem;
+  }
+
+  .product-page-header__badge-subtitle {
+    font-size: 0.5rem;
+  }
+
+  .product-page-header__help-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}
+
