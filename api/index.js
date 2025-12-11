@@ -21,8 +21,11 @@ const corsOptions = {
       'http://127.0.0.1:3000',
     ];
     
-    // Allow if origin is in the allowed list or in development
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+    // Allow any Vercel domain (for preview deployments)
+    const isVercelDomain = origin.includes('.vercel.app') || origin.includes('.vercel.com');
+    
+    // Allow if origin is in the allowed list, is a Vercel domain, or in development
+    if (allowedOrigins.indexOf(origin) !== -1 || isVercelDomain || process.env.NODE_ENV === 'development') {
       callback(null, true);
     } else {
       // In production, log but allow for now (you can change this to reject)
@@ -110,8 +113,12 @@ app.use((req, res) => {
   });
 });
 
-// Initialize DB connection
-connectDB().catch(console.error);
+// Initialize DB connection (for serverless, connection is reused)
+connectDB().catch((error) => {
+  console.error('Failed to connect to MongoDB:', error);
+  // Don't throw - allow serverless function to start even if DB connection fails initially
+  // Connection will be retried on first request
+});
 
 // Export for Vercel serverless
 // For Vercel, we need to handle the path correctly
